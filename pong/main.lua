@@ -88,13 +88,17 @@ function love.load()
         vsync = true
     })
 
+    -- place a ball in the middle of the screen
+    ball = Ball(VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
+
     -- initialize our player paddles; make them global so that they can be
     -- detected by other functions and modules
     player1 = Paddle(10, 30, 5, 20)
-    player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20)
+    -- player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20), This is the old code for Player 2 
+    -- Player2 y position is equal to ball.y every start of the game, This is the new code for AI implementation
+    player2 = Paddle(VIRTUAL_WIDTH - 10, ball.y, 5, 20)
 
-    -- place a ball in the middle of the screen
-    ball = Ball(VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
+    
 
     -- initialize score variables
     player1Score = 0
@@ -136,6 +140,10 @@ end
 ]]
 function love.update(dt)
     if gameState == 'serve' then
+        
+        -- Additional Code to prevent shaking every reset or serve
+        player2.y = ball.y
+
         -- before switching to play, initialize ball's velocity based
         -- on player who last scored
         ball.dy = math.random(-50, 50)
@@ -144,6 +152,7 @@ function love.update(dt)
         else
             ball.dx = -math.random(140, 200)
         end
+
     elseif gameState == 'play' then
         -- detect ball collision with paddles, reversing dx if true and
         -- slightly increasing it, then altering the dy based on the position
@@ -241,10 +250,19 @@ function love.update(dt)
         player1.dy = 0
     end
 
-    -- player 2
-    if love.keyboard.isDown('up') then
+    -- Old Code for player 2
+    -- if love.keyboard.isDown('up') then
+    --     player2.dy = -PADDLE_SPEED
+    -- elseif love.keyboard.isDown('down') then
+    --     player2.dy = PADDLE_SPEED
+    -- else
+    --     player2.dy = 0
+    -- end
+
+    -- AI code for Player 2
+    if ball.y < player2.y then
         player2.dy = -PADDLE_SPEED
-    elseif love.keyboard.isDown('down') then
+    elseif ball.y > player2.y then
         player2.dy = PADDLE_SPEED
     else
         player2.dy = 0
@@ -307,7 +325,7 @@ function love.draw()
     -- begin drawing with push, in our virtual resolution
     push:apply('start')
 
-    love.graphics.clear(40, 45, 52, 255)
+    love.graphics.clear(0.157, 0.176, 0.204, 1)
     
     -- render different things depending on which part of the game we're in
     if gameState == 'start' then
@@ -364,6 +382,6 @@ end
 function displayFPS()
     -- simple FPS display across all states
     love.graphics.setFont(smallFont)
-    love.graphics.setColor(0, 255, 0, 255)
+    love.graphics.setColor(0, 1, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
 end
