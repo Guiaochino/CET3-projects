@@ -94,6 +94,7 @@ function love.load()
     -- initialize our player paddles; make them global so that they can be
     -- detected by other functions and modules
     player1 = Paddle(10, 30, 5, 20)
+    
     -- player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20), This is the old code for Player 2 
     -- Player2 y position is equal to ball.y every start of the game, This is the new code for AI implementation
     player2 = Paddle(VIRTUAL_WIDTH - 10, ball.y, 5, 20)
