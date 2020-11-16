@@ -45,7 +45,7 @@ function ScoreState:render()
 --[[
     Assign what medal the player will get depending on the score. Bronze medal is for below 2 points. Silver medal is for 2 points up to 4 points. Gold medal is for 5 points and above.
 ]]
-    if self.score < 2 then
+    if self.score < 2 and self.score > 0 then
         love.graphics.draw(bronze, VIRTUAL_WIDTH/2 - (bronze:getWidth() * 0.21 / 2), 120, 0, 0.21, 0.21)
     end
       
