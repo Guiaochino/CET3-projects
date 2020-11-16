@@ -28,6 +28,15 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+    
+    -- Music stops if the user press p
+
+    if love.keyboard.wasPressed('p') then
+        GAME_PAUSED = true;
+        sounds['music']:pause()
+        sounds['pause']:play() 
+    end
+       
     -- update timer for pipe spawning
     self.timer = self.timer + dt
 
@@ -101,6 +110,9 @@ function PlayState:update(dt)
     end
 end
 
+ 
+
+
 function PlayState:render()
     for k, pair in pairs(self.pipePairs) do
         pair:render()
@@ -110,6 +122,13 @@ function PlayState:render()
     love.graphics.print('Score: ' .. tostring(self.score), 8, 8)
 
     self.bird:render()
+
+    if GAME_PAUSED == true then
+        love.graphics.setFont(hugeFont)
+        love.graphics.printf('Pause', 0, 100, VIRTUAL_WIDTH, 'center')
+        love.graphics.setFont(mediumFont)
+        love.graphics.printf('Press P to continue', 0, 160, VIRTUAL_WIDTH, 'center') 
+    end
 end
 
 --[[
