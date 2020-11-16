@@ -18,7 +18,7 @@ function PipePair:init(y)
     self.scored = false
     
     --randomize gapheight
-    self.gapheight = math.random(50,120)
+    self.gapheight = math.random(90,150)
 
     -- initialize pipes past the end of the screen
     self.x = VIRTUAL_WIDTH + 32
