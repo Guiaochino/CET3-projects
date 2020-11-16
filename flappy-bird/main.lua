@@ -51,6 +51,10 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGHT = 288
 
+-- adding variable for pause (specification)
+
+GAME_PAUSED = false
+
 local background = love.graphics.newImage('background.png')
 local backgroundScroll = 0
 
@@ -85,6 +89,10 @@ function love.load()
         ['explosion'] = love.audio.newSource('explosion.wav', 'static'),
         ['hurt'] = love.audio.newSource('hurt.wav', 'static'),
         ['score'] = love.audio.newSource('score.wav', 'static'),
+
+        -- adding pause music (specifiaction)
+
+        ['pause'] = love.audio.newSource('pause.wav', 'static'),
 
         -- https://freesound.org/people/xsgianni/sounds/388079/
         ['music'] = love.audio.newSource('marios_way.mp3', 'static')
@@ -127,6 +135,14 @@ function love.keypressed(key)
 
     if key == 'escape' then
         love.event.quit()
+
+        -- adding pause press key (specification)   
+    elseif GAME_PAUSED and key == 'p' then
+        GAME_PAUSED = false 
+        sounds['music']:play()
+        sounds['pause']:pause()
+        pause_icon = false
+        love.keyboard.keysPressed = {} 
     end
 end
 
@@ -153,13 +169,15 @@ function love.mouse.wasPressed(button)
     return love.mouse.buttonsPressed[button]
 end
 
-function love.update(dt)
-    -- scroll our background and ground, looping back to 0 after a certain amount
-    backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
-    groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
+function love.update(dt)   
+    
+    if (GAME_PAUSED) == false then 
+        -- scroll our background and ground, looping back to 0 after a certain amount
+        backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
+        groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
 
-    gStateMachine:update(dt)
-
+     gStateMachine:update(dt) 
+    end
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
 end
