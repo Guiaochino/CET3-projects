@@ -22,17 +22,29 @@ function PlayState:init()
     self.pipePairs = {}
     self.timer = 0
     self.score = 0
+    self.spawnPipes = math.random(2, 5)
 
     -- initialize our last recorded Y value for a gap placement to base other gaps off of
     self.lastY = -PIPE_HEIGHT + math.random(80) + 20
 end
 
 function PlayState:update(dt)
+    
+    -- Music stops if the user press p
+
+    if love.keyboard.wasPressed('p') then
+        GAME_PAUSED = true;
+        sounds['music']:pause()
+        sounds['pause']:play() 
+    end
+       
     -- update timer for pipe spawning
     self.timer = self.timer + dt
 
     -- spawn a new pipe pair every second and a half
-    if self.timer > 2 then
+    -- old code if self.timer > 2 then
+    --this is the new code
+    if self.timer > self.spawnPipes then
         -- modify the last Y coordinate we placed so pipe gaps aren't too far apart
         -- no higher than 10 pixels below the top edge of the screen,
         -- and no lower than a gap length (90 pixels) from the bottom
@@ -45,6 +57,7 @@ function PlayState:update(dt)
 
         -- reset timer
         self.timer = 0
+        self.spawnPipes = math.random(2, 5)
     end
 
     -- for every pair of pipes..
@@ -101,6 +114,9 @@ function PlayState:update(dt)
     end
 end
 
+ 
+
+
 function PlayState:render()
     for k, pair in pairs(self.pipePairs) do
         pair:render()
@@ -110,6 +126,13 @@ function PlayState:render()
     love.graphics.print('Score: ' .. tostring(self.score), 8, 8)
 
     self.bird:render()
+
+    if GAME_PAUSED == true then
+        love.graphics.setFont(hugeFont)
+        love.graphics.printf('Pause', 0, 100, VIRTUAL_WIDTH, 'center')
+        love.graphics.setFont(mediumFont)
+        love.graphics.printf('Press P to continue', 0, 160, VIRTUAL_WIDTH, 'center') 
+    end
 end
 
 --[[
