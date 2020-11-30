@@ -45,7 +45,11 @@ function LevelMaker.generate(width, height)
         end
 
         -- chance to just be emptiness
+<<<<<<< HEAD
         if math.random(7) == 1 and x ~= 1 and generateLock ~= x and generateKey ~= x then
+=======
+        if math.random(7) == 1 and x > 1 then
+>>>>>>> 74403154be2ca16ef41305130cf91d65c3832182
             for y = 7, height do
                 table.insert(tiles[y],
                     Tile(x, y, tileID, nil, tileset, topperset))
