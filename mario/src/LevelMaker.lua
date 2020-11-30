@@ -10,6 +10,8 @@
 
 LevelMaker = Class{}
 
+hasKey = false
+
 function LevelMaker.generate(width, height)
     local tiles = {}
     local entities = {}
@@ -21,6 +23,11 @@ function LevelMaker.generate(width, height)
     local topper = true
     local tileset = math.random(20)
     local topperset = math.random(20)
+
+    -- Generate Lock and Keys in position
+    local generateLock = math.random(1, width)
+    local generateKey = math.random(1, width)
+    local skinColor = math.random(1, 4)
 
     -- insert blank tables into tiles for later access
     for x = 1, height do
@@ -38,7 +45,7 @@ function LevelMaker.generate(width, height)
         end
 
         -- chance to just be emptiness
-        if math.random(7) == 1 then
+        if math.random(7) == 1 and x ~= 1 and generateLock ~= x and generateKey ~= x then
             for y = 7, height do
                 table.insert(tiles[y],
                     Tile(x, y, tileID, nil, tileset, topperset))
@@ -79,7 +86,7 @@ function LevelMaker.generate(width, height)
                 tiles[7][x].topper = nil
             
             -- chance to generate bushes
-            elseif math.random(8) == 1 then
+            elseif math.random(8) == 1 and generateKey ~= x then
                 table.insert(objects,
                     GameObject {
                         texture = 'bushes',
@@ -91,6 +98,57 @@ function LevelMaker.generate(width, height)
                         collidable = false
                     }
                 )
+            end
+
+            -- Generate Key
+            if x == generateKey then
+                table.insert(objects, GameObject{
+                    texture = 'key-lock',
+                    x = (x - 1) * TILE_SIZE,
+                    y = (blockHeight + 1) * TILE_SIZE,
+                    width = 16,
+                    height = 16,
+                    frame = skinColor,
+                    collidable = true,
+                    consumable = true,
+                    solid = false,
+
+                    onConsume = function (player, object)
+                        gSounds['pickup']:play()
+                        hasKey = true
+                    end
+                })
+            end
+
+            -- Generate Lock Box
+            if x == generateLock then
+                table.insert(objects, GameObject{
+                    texture = 'key-lock',
+                    x = (x - 1) * TILE_SIZE,
+                    y = (blockHeight - 1) * TILE_SIZE,
+                    width = 16,
+                    height = 16,
+                    frame = skinColor + 4,
+                    collidable = true,
+                    hit = false,
+                    solid = true,
+                    locked = false,
+                    
+                    -- Execute on Collision
+                    onCollide = function (obj)
+                        if not obj.hit then
+                            if hasKey then
+                                gSounds['pickup']:play()
+                                obj.hit = true
+                                obj.locked = true
+
+                            -- put code for flag spawn here
+
+
+                            end
+                        end
+                    end
+                })
             end
 
             -- chance to spawn a block

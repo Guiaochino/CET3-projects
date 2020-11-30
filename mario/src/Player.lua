@@ -76,6 +76,9 @@ function Player:checkObjectCollisions()
                 object.onConsume(self)
                 table.remove(self.level.objects, k)
             end
+            if object.locked and hasKey then
+                table.remove(self.level.object, k)
+            end
         end
     end
 
