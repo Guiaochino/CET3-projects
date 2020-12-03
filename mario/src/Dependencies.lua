@@ -74,7 +74,7 @@ gTextures = {
     ['backgrounds'] = love.graphics.newImage('graphics/backgrounds.png'),
     ['green-alien'] = love.graphics.newImage('graphics/green_alien.png'),
     ['creatures'] = love.graphics.newImage('graphics/creatures.png'),
-    ['key-lock'] = love.graphics.newImage('graphics/keys_and_locks.png')
+    ['key-lock'] = love.graphics.newImage('graphics/keys_and_locks.png') -- texture for key and locks
 }
 
 gFrames = {
@@ -86,7 +86,7 @@ gFrames = {
     ['backgrounds'] = GenerateQuads(gTextures['backgrounds'], 256, 128),
     ['green-alien'] = GenerateQuads(gTextures['green-alien'], 16, 20),
     ['creatures'] = GenerateQuads(gTextures['creatures'], 16, 16),
-    ['key-lock'] = GenerateQuads(gTextures['key-lock'], 16, 16)
+    ['key-lock'] = GenerateQuads(gTextures['key-lock'], 16, 16) -- key and lock frame
 }
 
 -- these need to be added after gFrames is initialized because they refer to gFrames from within

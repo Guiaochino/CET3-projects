@@ -10,7 +10,7 @@
 
 LevelMaker = Class{}
 
-hasKey = false
+ghasKey = false
 
 function LevelMaker.generate(width, height)
     local tiles = {}
@@ -25,8 +25,8 @@ function LevelMaker.generate(width, height)
     local topperset = math.random(20)
 
     -- Generate Lock and Keys in position
-    local generateLock = math.random(1, width)
-    local generateKey = math.random(1, width)
+    local generateLock = math.random(width - 15, width - 5)
+    local generateKey = math.random(1, width / 2)
     local skinColor = math.random(1, 4)
 
     -- insert blank tables into tiles for later access
@@ -115,7 +115,8 @@ function LevelMaker.generate(width, height)
 
                     onConsume = function (player, object)
                         gSounds['pickup']:play()
-                        hasKey = true
+                        ghasKey = true
+                        player.score = player.score + 100
                     end
                 })
             end
@@ -133,15 +134,14 @@ function LevelMaker.generate(width, height)
                     hit = false,
                     solid = true,
                     locked = false,
-                    
+
                     -- Execute on Collision
                     onCollide = function (obj)
                         if not obj.hit then
-                            if hasKey then
+                            if ghasKey then
                                 gSounds['pickup']:play()
                                 obj.hit = true
-                                obj.locked = true
-
+                                
                             -- put code for flag spawn here
 
 
@@ -152,7 +152,7 @@ function LevelMaker.generate(width, height)
             end
 
             -- chance to spawn a block
-            if math.random(10) == 1 then
+            if math.random(10) == 1 and generateLock ~= x then
                 table.insert(objects,
 
                     -- jump block
