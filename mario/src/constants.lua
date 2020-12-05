@@ -51,7 +51,7 @@ TILE_SETS = TILE_SETS_WIDE * TILE_SETS_TALL
 PLAYER_WALK_SPEED = 60
 
 -- player jumping velocity
-PLAYER_JUMP_VELOCITY = -150
+PLAYER_JUMP_VELOCITY = -230
 
 -- snail movement speed
 SNAIL_MOVE_SPEED = 10
@@ -84,6 +84,22 @@ CRATES = {
 
 GEMS = {
     1, 2, 3, 4, 5, 6, 7, 8
+}
+
+KEYS = {
+    1, 2, 3, 4
+}
+
+LOCKS = {
+    1, 2, 3, 4
+}
+
+FLAG_POSTS = {
+    1, 2, 3, 4, 5, 6
+}
+
+FLAGS = {
+    1, 2, 3, 4
 }
 
 JUMP_BLOCKS = {}

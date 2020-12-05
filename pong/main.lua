@@ -111,7 +111,7 @@ function love.load()
 
     -- player who won the game; not set to a proper value until we reach
     -- that state in the game
-    winningPlayer = 0
+    winningPlayer = ''
 
     -- the state of our game; can be any of the following:
     -- 1. 'start' (the beginning of the game, before first serve)
@@ -210,7 +210,7 @@ function love.update(dt)
             -- if we've reached a score of 10, the game is over; set the
             -- state to done so we can show the victory message
             if player2Score == 10 then
-                winningPlayer = 2
+                winningPlayer = 'AI'
                 gameState = 'done'
             else
                 gameState = 'serve'
@@ -229,7 +229,7 @@ function love.update(dt)
             -- if we've reached a score of 10, the game is over; set the
             -- state to done so we can show the victory message
             if player1Score == 10 then
-                winningPlayer = 1
+                winningPlayer = '1'
                 gameState = 'done'
             else
                 gameState = 'serve'
@@ -337,7 +337,7 @@ function love.draw()
     elseif gameState == 'serve' then
         -- UI messages
         love.graphics.setFont(smallFont)
-        love.graphics.printf('Player ' .. tostring(servingPlayer) .. "'s serve!", 
+        love.graphics.printf('Player ' .. tostring(servingPlayer) .. "'s serve!",
             0, 10, VIRTUAL_WIDTH, 'center')
         love.graphics.printf('Press Enter to serve!', 0, 20, VIRTUAL_WIDTH, 'center')
     elseif gameState == 'play' then
@@ -345,11 +345,14 @@ function love.draw()
     elseif gameState == 'done' then
         -- UI messages
         love.graphics.setFont(largeFont)
-        love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!',
+        love.graphics.printf('Player ' .. winningPlayer .. ' wins!',
             0, 10, VIRTUAL_WIDTH, 'center')
         love.graphics.setFont(smallFont)
         love.graphics.printf('Press Enter to restart!', 0, 30, VIRTUAL_WIDTH, 'center')
     end
+
+    -- show name to indicate player
+    displayName()
 
     -- show the score before ball is rendered so it can move over the text
     displayScore()
@@ -363,6 +366,13 @@ function love.draw()
 
     -- end our drawing to push
     push:apply('end')
+end
+
+function displayName()
+    -- display name on game
+    love.graphics.setFont(smallFont)
+    love.graphics.printf('Player 1', 20, 20, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf('Player AI', -20, 20, VIRTUAL_WIDTH, 'right')
 end
 
 --[[
