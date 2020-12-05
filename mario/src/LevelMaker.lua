@@ -19,6 +19,9 @@ function LevelMaker.generate(width, height)
 
     local tileID = TILE_ID_GROUND
     
+    local poleFrame = math.random(1, 6)
+    local flagFrame = poleFrame + 6
+
     -- whether we should draw our tiles with toppers
     local topper = true
     local tileset = math.random(20)
@@ -142,7 +145,37 @@ function LevelMaker.generate(width, height)
                                 gSounds['pickup']:play()
                                 obj.hit = true
                                 
-                            -- put code for flag spawn here
+                                    -- put code for flag spawn here
+                                 
+                                local pole = GameObject{
+                                    texture = 'pole',
+                                    x = (width - 2) * TILE_SIZE,
+                                    y = (height - 7) * TILE_SIZE,
+                                    width = 16,
+                                    height = 48,
+                                    frame = poleFrame,
+                                    solid = false,
+                                    consumable = true,
+
+                                    -- put onConsume code here to generate a new level
+                                    
+                                }                               
+                                local flags = GameObject{
+                                    texture = 'flags',
+                                    x = (width - 2) * TILE_SIZE + 8,
+                                    y = (height - 7) * TILE_SIZE,
+                                    width = 16,
+                                    height = 16,
+                                    frame = flagFrame,
+                                    solid = false,
+                                    consumable = true,
+
+                                    -- put onConsume code here to generate a new level
+
+                                }
+                                
+                                table.insert(objects, pole)
+                                table.insert(objects, flags)
 
 
                             end
