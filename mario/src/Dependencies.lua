@@ -74,7 +74,9 @@ gTextures = {
     ['backgrounds'] = love.graphics.newImage('graphics/backgrounds.png'),
     ['green-alien'] = love.graphics.newImage('graphics/green_alien.png'),
     ['creatures'] = love.graphics.newImage('graphics/creatures.png'),
-    ['key-lock'] = love.graphics.newImage('graphics/keys_and_locks.png') -- texture for key and locks
+    ['key-lock'] = love.graphics.newImage('graphics/keys_and_locks.png'), -- texture for key and locks
+    ['pole'] = love.graphics.newImage('graphics/poles.png'), -- texture for flag poles
+    ['flags'] = love.graphics.newImage('graphics/flag.png')
 }
 
 gFrames = {
@@ -86,8 +88,11 @@ gFrames = {
     ['backgrounds'] = GenerateQuads(gTextures['backgrounds'], 256, 128),
     ['green-alien'] = GenerateQuads(gTextures['green-alien'], 16, 20),
     ['creatures'] = GenerateQuads(gTextures['creatures'], 16, 16),
-    ['key-lock'] = GenerateQuads(gTextures['key-lock'], 16, 16) -- key and lock frame
+    ['key-lock'] = GenerateQuads(gTextures['key-lock'], 16, 16), -- key and lock frame
+    ['pole'] = GenerateQuads(gTextures['pole'], 16, 48), -- flag pole frame
+    ['flags'] = GenerateQuads(gTextures['flags'], 16, 16)
 }
+
 
 -- these need to be added after gFrames is initialized because they refer to gFrames from within
 gFrames['tilesets'] = GenerateTileSets(gFrames['tiles'], 
