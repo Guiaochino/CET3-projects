@@ -45,6 +45,8 @@ function PlayerFallingState:update(dt)
     -- go back to start if we fall below the map boundary
     elseif self.player.y > VIRTUAL_HEIGHT then
         gSounds['death']:play()
+        LEVEL_NUM = 0
+        LEVEL_WIDTH = 100
         gStateMachine:change('start')
     
     -- check side collisions and reset position
