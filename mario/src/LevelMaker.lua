@@ -157,9 +157,19 @@ function LevelMaker.generate(width, height)
                                     frame = poleFrame,
                                     solid = false,
                                     consumable = true,
-                                    collidable = true
+                                    collidable = true,
 
                                     -- put onConsume code here to generate a new level
+                                    onConsume = function (player, object)
+	                                    gSounds['pickup']:play()
+	                                    LEVEL_WIDTH = width + 20
+	                                    CurrentScore = player.score
+	                                    LEVEL_NUM = LEVEL_NUM + 1
+	                                    LevelMaker.generate(LEVEL_WIDTH, height)
+	                                    gStateMachine:change('play')
+                                    end
+                                        
+                      
                                     
                                 }                               
                                 local flags = GameObject{
@@ -171,9 +181,17 @@ function LevelMaker.generate(width, height)
                                     frame = flagFrame,
                                     solid = false,
                                     consumable = true,
-                                    collidable = true
+                                    collidable = true,
 
                                     -- put onConsume code here to generate a new level
+                                    onConsume = function (player, object)
+	                                    gSounds['pickup']:play()
+	                                    LEVEL_WIDTH = width + 20
+	                                    CurrentScore = player.score
+	                                    LEVEL_NUM = LEVEL_NUM + 1
+	                                    LevelMaker.generate(LEVEL_WIDTH, height)
+	                                    gStateMachine:change('play')
+                                    end
 
                                 }
                                 
