@@ -37,6 +37,15 @@ function PlayState:init()
     self.player:changeState('falling')
 end
 
+function PlayState:enter()
+    if LEVEL_NUM > 0 then
+        self.player.score = CurrentScore + self.player.score
+    elseif LEVEL_NUM == 0 and LEVEL_WIDTH == 100 then
+        self.player.score = 0
+    end
+end
+
+
 function PlayState:update(dt)
     Timer.update(dt)
 
