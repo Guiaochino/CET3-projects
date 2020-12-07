@@ -77,9 +77,9 @@ function Player:checkObjectCollisions()
                 table.remove(self.level.objects, k)
             end
             
-            -- if object.locked and ghasKey then
-            --     table.remove(self.level.object, k)
-            -- end
+            if object.locked and ghasKey then
+                table.remove(self.level.object, k)
+            end
         end
     end
 

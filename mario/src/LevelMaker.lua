@@ -144,36 +144,48 @@ function LevelMaker.generate(width, height)
                             if ghasKey then
                                 gSounds['pickup']:play()
                                 obj.hit = true
+                                -- obj.locked = true
                                 
                                     -- put code for flag spawn here
                                  
                                 local pole = GameObject{
                                     texture = 'pole',
-                                    x = (width - 2) * TILE_SIZE,
-                                    y = (height - 7) * TILE_SIZE,
+                                    x = (obj.x + 3),
+                                    y = (blockHeight - 4) * TILE_SIZE,
                                     width = 16,
                                     height = 48,
                                     frame = poleFrame,
                                     solid = false,
                                     consumable = true,
+                                    collidable = true
 
                                     -- put onConsume code here to generate a new level
                                     
                                 }                               
                                 local flags = GameObject{
                                     texture = 'flags',
-                                    x = (width - 2) * TILE_SIZE + 8,
-                                    y = (height - 7) * TILE_SIZE,
+                                    x = (obj.x + 6) ,
+                                    y = (blockHeight - 2) * TILE_SIZE,
                                     width = 16,
                                     height = 16,
                                     frame = flagFrame,
                                     solid = false,
                                     consumable = true,
+                                    collidable = true
 
                                     -- put onConsume code here to generate a new level
 
                                 }
                                 
+                                -- Timer.tween(0.5, {
+                                --     y = (blockHeight - 4) * TILE_SIZE + 4
+                                -- })
+
+                                Timer.tween(1.0, {
+                                    [flags] = {y = (blockHeight - 4) * TILE_SIZE + 4}
+                                })
+                                gSounds['powerup-reveal']:play()
+
                                 table.insert(objects, pole)
                                 table.insert(objects, flags)
 
