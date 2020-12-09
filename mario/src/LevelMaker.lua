@@ -150,7 +150,7 @@ function LevelMaker.generate(width, height)
                                  
                                 local pole = GameObject{
                                     texture = 'pole',
-                                    x = (obj.x + 3),
+                                    x = obj.x,
                                     y = (blockHeight - 4) * TILE_SIZE,
                                     width = 16,
                                     height = 48,
