@@ -161,7 +161,8 @@ function LevelMaker.generate(width, height)
 
                                     -- put onConsume code here to generate a new level
                                     onConsume = function (player, object)
-	                                    gSounds['pickup']:play()
+                                        gSounds['pickup']:play()
+                                        player.score = player.score + 500
 	                                    LEVEL_WIDTH = width + 20
 	                                    CurrentScore = player.score
 	                                    LEVEL_NUM = LEVEL_NUM + 1
