@@ -28,7 +28,7 @@ function LevelMaker.generate(width, height)
     local topperset = math.random(20)
 
     -- Generate Lock and Keys in position
-    local generateLock = math.random(width - 15, width - 5)
+    local generateLock = math.random(width - 10, width - 5)
     local generateKey = math.random(1, width / 2)
     local skinColor = math.random(1, 4)
 
@@ -185,7 +185,8 @@ function LevelMaker.generate(width, height)
 
                                     -- put onConsume code here to generate a new level
                                     onConsume = function (player, object)
-	                                    gSounds['pickup']:play()
+                                        gSounds['pickup']:play()
+                                        player.score = player.score + 500
 	                                    LEVEL_WIDTH = width + 20
 	                                    CurrentScore = player.score
 	                                    LEVEL_NUM = LEVEL_NUM + 1
