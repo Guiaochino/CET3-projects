@@ -10,6 +10,12 @@
     Some global constants for our application.
 ]]
 
+-- width of the level
+LEVEL_WIDTH = 100
+
+--  number of levels won
+LEVEL_NUM = 0
+
 -- size of our actual window
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720

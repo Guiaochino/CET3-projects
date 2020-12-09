@@ -42,14 +42,12 @@ function ScoreState:render()
     love.graphics.setFont(mediumFont)
     love.graphics.printf('Score: ' .. tostring(self.score), 0, 100, VIRTUAL_WIDTH, 'center')
     
---[[
-    Assign what medal the player will get depending on the score. Bronze medal is for below 2 points. Silver medal is for 2 points up to 4 points. Gold medal is for 5 points and above.
-]]
-    if self.score < 2 and self.score > 0 then
+    -- Assign what medal the player will get depending on the score. Bronze medal is for 2 points and below. Silver medal is for 3 points up to 4 points. Gold medal is for 5 points and above.
+    if self.score < 3 and self.score >= 0 then
         love.graphics.draw(bronze, VIRTUAL_WIDTH/2 - (bronze:getWidth() * 0.21 / 2), 120, 0, 0.21, 0.21)
     end
       
-    if self.score > 1 and self.score < 5 then
+    if self.score > 2 and self.score < 5 then
         love.graphics.draw(silver,VIRTUAL_WIDTH/2 - (silver:getWidth() * 0.21 / 2), 120, 0, 0.21, 0.21)
     end
       
