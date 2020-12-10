@@ -10,7 +10,7 @@
 
 LevelMaker = Class{}
 
-ghasKey = false
+hasKey = false
 
 function LevelMaker.generate(width, height)
     local tiles = {}
@@ -118,7 +118,7 @@ function LevelMaker.generate(width, height)
 
                     onConsume = function (player, object)
                         gSounds['pickup']:play()
-                        ghasKey = true
+                        hasKey = true
                         player.score = player.score + 100
                     end
                 })
@@ -141,7 +141,7 @@ function LevelMaker.generate(width, height)
                     -- Execute on Collision
                     onCollide = function (obj)
                         if not obj.hit then
-                            if ghasKey then
+                            if hasKey then
                                 gSounds['pickup']:play()
                                 obj.hit = true
                                 -- obj.locked = true
