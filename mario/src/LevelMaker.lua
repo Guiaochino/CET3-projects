@@ -10,7 +10,7 @@
 
 LevelMaker = Class{}
 
-ghasKey = false
+hasKey = false
 
 function LevelMaker.generate(width, height)
     local tiles = {}
@@ -28,7 +28,7 @@ function LevelMaker.generate(width, height)
     local topperset = math.random(20)
 
     -- Generate Lock and Keys in position
-    local generateLock = math.random(width - 15, width - 5)
+    local generateLock = math.random(width - 10, width - 5)
     local generateKey = math.random(1, width / 2)
     local skinColor = math.random(1, 4)
 
@@ -118,7 +118,7 @@ function LevelMaker.generate(width, height)
 
                     onConsume = function (player, object)
                         gSounds['pickup']:play()
-                        ghasKey = true
+                        hasKey = true
                         player.score = player.score + 100
                     end
                 })
@@ -141,7 +141,7 @@ function LevelMaker.generate(width, height)
                     -- Execute on Collision
                     onCollide = function (obj)
                         if not obj.hit then
-                            if ghasKey then
+                            if hasKey then
                                 gSounds['pickup']:play()
                                 obj.hit = true
                                 -- obj.locked = true
@@ -150,7 +150,7 @@ function LevelMaker.generate(width, height)
                                  
                                 local pole = GameObject{
                                     texture = 'pole',
-                                    x = (obj.x + 3),
+                                    x = obj.x,
                                     y = (blockHeight - 4) * TILE_SIZE,
                                     width = 16,
                                     height = 48,
@@ -161,7 +161,8 @@ function LevelMaker.generate(width, height)
 
                                     -- put onConsume code here to generate a new level
                                     onConsume = function (player, object)
-	                                    gSounds['pickup']:play()
+                                        gSounds['pickup']:play()
+                                        player.score = player.score + 500
 	                                    LEVEL_WIDTH = width + 20
 	                                    CurrentScore = player.score
 	                                    LEVEL_NUM = LEVEL_NUM + 1
@@ -185,7 +186,8 @@ function LevelMaker.generate(width, height)
 
                                     -- put onConsume code here to generate a new level
                                     onConsume = function (player, object)
-	                                    gSounds['pickup']:play()
+                                        gSounds['pickup']:play()
+                                        player.score = player.score + 500
 	                                    LEVEL_WIDTH = width + 20
 	                                    CurrentScore = player.score
 	                                    LEVEL_NUM = LEVEL_NUM + 1
