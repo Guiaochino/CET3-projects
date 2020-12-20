@@ -71,5 +71,5 @@ gSounds = {
     ['hit-player'] = love.audio.newSource('sounds/hit_player.wav', 'static'),
     ['door'] = love.audio.newSource('sounds/door.wav', 'static'),
     --for consuming heart
-    ['life-up] = love.audio.newSource('sounds/life_up.wav','static')
+    ['life-up'] = love.audio.newSource('sounds/life_up.wav','static')
 }
