@@ -161,7 +161,7 @@ function Room:update(dt)
         local entity = self.entities[i]
 
         -- remove entity from the table if health is <= 0
-        if entity.health <= 0 and not entity.dead then
+        if entity.health <= 0 and entity.dead then
             if math.random(3) == 3 then
                 local life = GameObject(
                     GAME_OBJECT_DEFS['heart'],
@@ -174,7 +174,6 @@ function Room:update(dt)
                 end
                 table.insert(self.objects, life)
             end
-            entity.dead = true
         elseif not entity.dead then
             entity:processAI({room = self}, dt)
             entity:update(dt)
