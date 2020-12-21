@@ -46,6 +46,19 @@ GAME_OBJECT_DEFS = {
         }
     },
     ['pot'] = {
-        -- TODO
+        type = 'pot',
+        texture = 'tiles',
+        frame = 14,
+        width = 16,
+        height = 16,
+        solid = true,
+        consumable = false,
+        defaultState = 'idle',
+        states = {
+            ['idle'] = {
+                frame = 14
+            }
+        }
+        
     }
 }

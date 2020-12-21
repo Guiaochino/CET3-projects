@@ -33,8 +33,6 @@ function Entity:init(def)
     self.invulnerable = false
     self.invulnerableDuration = 0
     self.invulnerableTimer = 0
-
-    -- timer for turning transparency on and off, flashing
     self.flashTimer = 0
 
     self.dead = false
@@ -54,9 +52,7 @@ function Entity:createAnimations(animations)
     return animationsReturned
 end
 
---[[
-    AABB with some slight shrinkage of the box on the top side for perspective.
-]]
+
 function Entity:collides(target)
     return not (self.x + self.width < target.x or self.x > target.x + target.width or
                 self.y + self.height < target.y or self.y > target.y + target.height)
@@ -64,6 +60,10 @@ end
 
 function Entity:damage(dmg)
     self.health = self.health - dmg
+
+    if self.health == 0 then
+        self.dead = true
+    end
 end
 
 function Entity:goInvulnerable(duration)
@@ -73,6 +73,12 @@ end
 
 function Entity:changeState(name)
     self.stateMachine:change(name)
+end
+
+--    Change state with params
+
+function Entity:changeStateWithParams(name, params)
+    self.stateMachine:change(name, params)
 end
 
 function Entity:changeAnimation(name)
@@ -104,15 +110,45 @@ function Entity:processAI(params, dt)
 end
 
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
-    
     -- draw sprite slightly transparent if invulnerable every 0.04 seconds
     if self.invulnerable and self.flashTimer > 0.06 then
         self.flashTimer = 0
-        love.graphics.setColor(1, 1, 1, 64/255)
+        love.graphics.setColor(255, 255, 255, 64)
     end
 
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()
-    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setColor(255, 255, 255, 255)
     self.x, self.y = self.x - (adjacentOffsetX or 0), self.y - (adjacentOffsetY or 0)
+end
+
+--    Check if entity is in Y area of the given object
+
+function Entity:inYvicinity(object)
+    
+    if self.direction == 'left' then
+    print(object.y < (self.y + self.height) and (self.y + self.height)  < (object.y + object.height))
+    print(object.y < self.y and self.y < (object.y + object.height))
+    end
+    return (
+        (object.y < (self.y + self.height) and (self.y + self.height)  < (object.y + object.height))
+        or
+        (object.y < self.y and self.y < (object.y + object.height))
+    )
+end
+
+-- update position based on collided object and entity's position
+
+function Entity:updateCoordinates(object)
+
+
+    if self.direction == 'left' and (self.x <= (object.x + object.width)) then
+        self.x = object.x + object.width
+    elseif self.direction == 'right' and (self.x + self.width) >= object.x then
+        self.x = object.x - self.width
+    elseif self.direction == 'up' then
+        self.y = object.y
+    elseif self.direction == 'down' then
+        self.y = object.y - self.height
+    end
 end
