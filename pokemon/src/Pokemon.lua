@@ -99,5 +99,6 @@ function Pokemon:levelUp()
     self.level = self.level + 1
     self.expToLevel = self.level * self.level * 5 * 0.75
 
+
     return self:statsLevelUp()
 end
