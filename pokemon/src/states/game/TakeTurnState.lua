@@ -215,12 +215,34 @@ function TakeTurnState:victory()
                         self.playerPokemon:levelUp()
 
                         gStateStack:push(BattleMessageState('Congratulations! Level Up!',
-                        function()
+                        
+                        -- push the menu state
+                        gStateStack:push(MenuState(
+                        {
+                            X_HP = self.playerPokemon.HP - HPIncrease,
+                            Y_HP = HPIncrease,
+                            Z_HP = self.playerPokemon.HP,
+
+                            X_ATTACK = self.playerPokemon.attack - attackIncrease,
+                            Y_ATTACK = attackIncrease,
+                            Z_ATTACK = self.playerPokemon.attack,
+
+                            X_DEFENSE = self.playerPokemon.defense - defenseIncrease,
+                            Y_DEFENSE = defenseIncrease,
+                            Z_DEFENSE = self.playerPokemon.defense,
+
+                            X_SPEED = self.playerPokemon.speed - speedIncrease,
+                            Y_SPEED = speedIncrease,
+                            Z_SPEED = self.playerPokemon.speed
+                        },
+                        function ()
                             self:fadeOutWhite()
-                        end))
+                        end))))
                     else
                         self:fadeOutWhite()
                     end
+                    
+                    local HPIncrease, attackIncrease, defenseIncrease, speedIncrease = self.playerPokemon:levelUp()
                 end)
             end)
         end))
