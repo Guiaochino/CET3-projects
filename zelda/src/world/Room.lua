@@ -166,9 +166,9 @@ function Room:update(dt)
                 local life = GameObject(
                     GAME_OBJECT_DEFS['heart'],
                     entity.x,
-                    entity.y
-                )
-                life.onConsume = function()
+                    entity.y)
+                
+                life.onConsume = function(player)
                     self.player.health = math.min(self.player.health + 2, 6)
                     gSounds['life-up']:play()
                 end

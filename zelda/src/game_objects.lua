@@ -31,18 +31,12 @@ GAME_OBJECT_DEFS = {
         width = 16,
         height = 16,
         solid = false,
+        consumable = true,
         defaultState ='heartspawn',
         states = {
             ['heartspawn'] = {
                 frame = 5
             },
-            --onConsume = function(player, object)
-                --if object.consumed == false then
-                    --gSounds['life-up']:setVolume(0.7)
-                    ---gSounds['life-up']:play()
-                    --object.consumed = true
-                --end
-            --end
         }
     },
     ['pot'] = {
