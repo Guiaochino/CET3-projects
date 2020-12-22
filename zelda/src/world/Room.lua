@@ -42,9 +42,7 @@ function Room:init(player)
     self.adjacentOffsetY = 0
 end
 
---[[
-    Randomly creates an assortment of enemies for the player to fight.
-]]
+
 function Room:generateEntities()
     local types = {'skeleton', 'slime', 'bat', 'ghost', 'spider'}
 
@@ -76,9 +74,7 @@ function Room:generateEntities()
     end
 end
 
---[[
-    Randomly creates an assortment of obstacles for the player to navigate around.
-]]
+
 function Room:generateObjects()
     local switch = GameObject(
         GAME_OBJECT_DEFS['switch'],
@@ -101,15 +97,23 @@ function Room:generateObjects()
             gSounds['door']:play()
         end
     end
-
-    -- add to list of objects in scene (only one switch for now)
     table.insert(self.objects, switch)
+    
+    for count=1, POT_PER_ROOM do
+        table.insert(self.objects, GameObject(
+            GAME_OBJECT_DEFS['pot'],
+            math.random(MAP_RENDER_OFFSET_X + TILE_SIZE, VIRTUAL_HEIGHT - TILE_SIZE * 2 - 16),
+            math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE, VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE -16)
+        ))
+
+        local pot = self.objects[#self.objects]
+
+        pot.onCollide = function() 
+        end
+    end
 end
 
---[[
-    Generates the walls and floors of the room, randomizing the various varieties
-    of said tiles for visual variety.
-]]
+
 function Room:generateWallsAndFloors()
     for y = 1, self.height do
         table.insert(self.tiles, {})
@@ -157,7 +161,19 @@ function Room:update(dt)
         local entity = self.entities[i]
 
         -- remove entity from the table if health is <= 0
-        if entity.health <= 0 then
+        if entity.health <= 0 and not entity.dead then
+            if math.random(3) == 3 then
+                local life = GameObject(
+                    GAME_OBJECT_DEFS['heart'],
+                    entity.x,
+                    entity.y
+                )
+                life.onConsume = function()
+                    self.player.health = math.min(self.player.health + 2, 6)
+                    gSounds['life-up']:play()
+                end
+                table.insert(self.objects, life)
+            end
             entity.dead = true
         elseif not entity.dead then
             entity:processAI({room = self}, dt)
@@ -182,6 +198,11 @@ function Room:update(dt)
         -- trigger collision callback on object
         if self.player:collides(object) then
             object:onCollide()
+            --removing heart after consuming
+            if object.type == 'heart' then
+                object:onConsume()
+                table.remove(self.objects, k)
+            end
         end
     end
 end
